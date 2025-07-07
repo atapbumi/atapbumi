@@ -1,0 +1,365 @@
+<?php
+// TAMPILKAN ERROR JIKA ADA
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// KONEKSI KE DATABASE
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "atap_bumi";
+
+$conn = mysqli_connect($host, $user, $pass, $db);
+if ($conn->connect_error) {
+    die("Koneksi gagal: " . $conn->connect_error);
+}
+
+// SIMPAN DATA KETIKA FORM DIKIRIM
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nama     = $_POST['nama'] ?? '';
+    $email    = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    if ($nama && $email && $password) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+
+        // SIMPAN KE DATABASE
+        $stmt = $conn->prepare("INSERT INTO users (nama, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $nama, $email, $hash);
+
+        if ($stmt->execute()) {
+            echo "Registrasi berhasil dan data disimpan ke database!";
+        } else {
+            echo "Gagal menyimpan: " . $stmt->error;
+        }
+    } else {
+        echo "Harap isi semua data!";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form {
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: #999;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e5e9;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            background: white;
+            color: #666;
+            text-decoration: none;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .social-btn.google::before {
+            content: "🔵";
+        }
+
+        .social-btn.facebook::before {
+            content: "🔵";
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showForm('login')">Login</div>
+            <div class="tab" onclick="showForm('register')">Register</div>
+        </div>
+
+        <div class="form-container">
+            <!-- Login Form -->
+            <div id="loginForm" class="form active">
+                <h2 class="form-title">Selamat Datang Kembali</h2>
+                
+                <form>
+                    <div class="input-group">
+                        <input type="email" class="input-field" placeholder="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" class="input-field" placeholder="password" required>
+                    </div>
+
+                    <button type="submit" class="btn"><a href="project.php"class="project-btn">Masuk</a></button>
+
+                    <div class="forgot-password">
+                        <a href="#">Lupa Password?</a>
+                    </div>
+
+                    <div class="divider">
+                        <span>atau</span>
+                    </div>
+
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google">Google</a>
+                        <a href="#" class="social-btn facebook">Facebook</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerForm" class="form">
+                <h2 class="form-title">Buat Akun Baru</h2>
+
+                <form method="POST" action="">
+                <label>Nama:</label><br>
+                <input type="text" name="nama" class="input-field"><br>
+
+                <label>Email:</label><br>
+                <input type="email" name="email" class="input-field"><br>
+
+                <label>Password:</label><br>
+                <input type="password" name="password" class="input-field"><br>
+
+                <button type="submit" class="btn">Daftar</button>
+                </form>
+
+                    <div class="divider">
+                        <span>atau</span>
+                    </div>
+
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google">Google</a>
+                        <a href="#" class="social-btn facebook">Facebook</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showForm(formType) {
+            // Hide all forms
+            const forms = document.querySelectorAll('.form');
+            forms.forEach(form => form.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected form
+            document.getElementById(formType + 'Form').classList.add('active');
+
+            // Add active class to selected tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
