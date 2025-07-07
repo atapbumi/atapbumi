@@ -497,140 +497,20 @@
 <body>
     <a href="project.php" class="back-to-site" onclick="goBackToSite()">❌</a>
     <div class="container">
-       <div class="main-content">
-            <div class="featured-item">
-                <h2>Paket Camping Keluarga</h2>
-                <div class="price">Rp 200.000</div>
-                <div class="quantity-control">
-                    <button class="quantity-btn" onclick="changeQuantity('paket-keluarga', -1)">−</button>
-                    <span class="quantity-display" id="qty-paket-keluarga">0</span>
-                    <button class="quantity-btn" onclick="changeQuantity('paket-keluarga', 1)">+</button>
-                </div>
-            </div>
+       <body>
+  <div class="container">
+    
+    <!-- Ini tempat kamu menaruh produk secara manual sebelumnya -->
+    <div id="produk-container" class="produk-wrapper"></div>
 
-            <div class="items-grid">
-                <div class="item-card">
-                    <h3>Tenda Hiking 4p</h3>
-                    <div class="price">Rp 30.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('tenda-4p', -1)">−</button>
-                        <span class="quantity-display" id="qty-tenda-4p">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('tenda-4p', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Tenda 2p</h3>
-                    <div class="price">Rp 25.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('tenda-2p', -1)">−</button>
-                        <span class="quantity-display" id="qty-tenda-2p">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('tenda-2p', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Fly Sheet</h3>
-                    <div class="price">Rp 10.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('fly-sheet', -1)">−</button>
-                        <span class="quantity-display" id="qty-fly-sheet">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('fly-sheet', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Kompor</h3>
-                    <div class="price">Rp 10.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('kompor', -1)">−</button>
-                        <span class="quantity-display" id="qty-kompor">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('kompor', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Cooking Set + Teko</h3>
-                    <div class="price">Rp 15.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('cooking-set', -1)">−</button>
-                        <span class="quantity-display" id="qty-cooking-set">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('cooking-set', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Cooking Set Kotak</h3>
-                    <div class="price">Rp 10.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('cooking-kotak', -1)">−</button>
-                        <span class="quantity-display" id="qty-cooking-kotak">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('cooking-kotak', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Matras Spons Camping Foam</h3>
-                    <div class="price">Rp 5.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('matras-spons', -1)">−</button>
-                        <span class="quantity-display" id="qty-matras-spons">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('matras-spons', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Matras Foil Camping Foam</h3>
-                    <div class="price">Rp 5.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('matras-foil', -1)">−</button>
-                        <span class="quantity-display" id="qty-matras-foil">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('matras-foil', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Headlamp LED Rechargeable</h3>
-                    <div class="price">Rp 150.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('headlamp', -1)">−</button>
-                        <span class="quantity-display" id="qty-headlamp">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('headlamp', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Botol Minum Stainless 1L</h3>
-                    <div class="price">Rp 125.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('botol-minum', -1)">−</button>
-                        <span class="quantity-display" id="qty-botol-minum">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('botol-minum', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Trekking Pole Carbon</h3>
-                    <div class="price">Rp 280.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('trekking-pole', -1)">−</button>
-                        <span class="quantity-display" id="qty-trekking-pole">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('trekking-pole', 1)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <h3>Hammock Outdoor</h3>
-                    <div class="price">Rp 175.000</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn" onclick="changeQuantity('hammock', -1)">−</button>
-                        <span class="quantity-display" id="qty-hammock">0</span>
-                        <button class="quantity-btn" onclick="changeQuantity('hammock', 1)">+</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Checkout section tetap -->
+    <div class="checkout-section">
+      <!-- input tanggal, metode pembayaran, total -->
+    </div>
   </div>
+
+  <script src="script.js"></script>
+</body>
 
         <div class="sidebar">
             <h3>📋 Ringkasan Pemesanan</h3>
