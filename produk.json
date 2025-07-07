@@ -1,22 +1,68 @@
 [
   {
+    "id": 1,
+    "nama": "Paket Camping Keluarga",
+    "harga": 200000
+  },
+  {
+    "id": 2,
+    "nama": "Tenda Hiking 4p",
+    "harga": 30000
+  },
+  {
+    "id": 3,
+    "nama": "Tenda 2p",
+    "harga": 25000
+  },
+  {
+    "id": 4,
     "nama": "Fly Sheet",
     "harga": 10000
   },
   {
+    "id": 5,
     "nama": "Kompor",
     "harga": 10000
   },
   {
+    "id": 6,
     "nama": "Cooking Set + Teko",
     "harga": 15000
   },
   {
+    "id": 7,
     "nama": "Cooking Set Kotak",
     "harga": 10000
   },
   {
+    "id": 8,
     "nama": "Matras Spons Camping Foam",
     "harga": 5000
+  },
+  {
+    "id": 9,
+    "nama": "Matras Foil Camping Foam",
+    "harga": 5000
+  },
+  {
+    "id": 10,
+    "nama": "Headlamp LED Rechargeable",
+    "harga": 150000
+  },
+  {
+    "id": 11,
+    "nama": "Botol Minum Stainless 1L",
+    "harga": 125000
+  },
+  {
+    "id": 12,
+    "nama": "Trekking Pole Carbon",
+    "harga": 280000
+  },
+  {
+    "id": 13,
+    "nama": "Hammock Outdoor",
+    "harga": 175000
   }
 ]
+
