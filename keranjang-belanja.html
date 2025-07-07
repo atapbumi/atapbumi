@@ -495,11 +495,9 @@
     </style>
 </head>
 <body>
-    <a href="project.php" class="back-to-site" onclick="goBackToSite()">❌</a>
+    <a href="project.html" class="back-to-site" onclick="goBackToSite()">❌</a>
     <div class="container">
-       <body>
-  <div class="container">
-     <div class="main-content">
+        <div class="main-content">
             <div class="featured-item">
                 <h2>Paket Camping Keluarga</h2>
                 <div class="price">Rp 200.000</div>
@@ -632,7 +630,6 @@
                 </div>
             </div>
         </div>
-</body>
 
         <div class="sidebar">
             <h3>📋 Ringkasan Pemesanan</h3>
@@ -756,23 +753,7 @@
             'trekking-pole': { name: 'Trekking Pole Carbon', price: 280000, quantity: 0 },
             'hammock': { name: 'Hammock Outdoor', price: 175000, quantity: 0 }
         };
-        const produkContainer = document.getElementById("produk-container");
 
-        for (const [id, item] of Object.entries(items)) {
-        const card = document.createElement("div");
-        card.className = "item-card";
-        card.innerHTML = `
-        <h3>${item.name}</h3>
-        <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
-        <div class="quantity-control">
-            <button class="quantity-btn" onclick="changeQuantity('${id}', -1)">-</button>
-            <div id="qty-${id}" class="quantity-display">0</div>
-            <button class="quantity-btn" onclick="changeQuantity('${id}', 1)">+</button>
-        </div>
-    `;
-        produkContainer.appendChild(card);
-    };
-        
         let rentalDays = 1;
         let orderHistory = [];
 
@@ -1121,7 +1102,5 @@
         loadHistory();
         updateOrderSummary();
     </script>
-    <script src="script.js"></script>
-
 </body>
 </html>
