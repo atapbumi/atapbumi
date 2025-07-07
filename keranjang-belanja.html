@@ -634,7 +634,23 @@
             'trekking-pole': { name: 'Trekking Pole Carbon', price: 280000, quantity: 0 },
             'hammock': { name: 'Hammock Outdoor', price: 175000, quantity: 0 }
         };
+        const produkContainer = document.getElementById("produk-container");
 
+        for (const [id, item] of Object.entries(items)) {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+        <h3>${item.name}</h3>
+        <div class="price">Rp ${item.price.toLocaleString('id-ID')}</div>
+        <div class="quantity-control">
+            <button class="quantity-btn" onclick="changeQuantity('${id}', -1)">-</button>
+            <div id="qty-${id}" class="quantity-display">0</div>
+            <button class="quantity-btn" onclick="changeQuantity('${id}', 1)">+</button>
+        </div>
+    `;
+        produkContainer.appendChild(card);
+    };
+        
         let rentalDays = 1;
         let orderHistory = [];
 
