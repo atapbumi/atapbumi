@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asap Bumi Adventure - Rental Peralatan Camping</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .main-content {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .featured-item {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .featured-item h2 {
+            color: #2d3436;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .featured-item .price {
+            color: #e17055;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #6c5ce7;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #5f3dc4;
+            transform: scale(1.1);
+        }
+
+        .quantity-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quantity-display {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3436;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .item-card h3 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .item-card .price {
+            color: #e17055;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .sidebar {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            height: fit-content;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h3 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .date-section {
+            margin-bottom: 25px;
+        }
+
+        .date-section label {
+            display: block;
+            margin-bottom: 8px;
+            color: #636e72;
+            font-weight: 600;
+        }
+
+        .date-section input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .date-section input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+        }
+
+        .rental-duration {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: bold;
+            color: #2d3436;
+        }
+
+        .payment-methods {
+            margin-bottom: 25px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .payment-option:hover {
+            background-color: #f8f9fa;
+        }
+
+        .payment-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+
+        .payment-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .payment-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .order-summary {
+            margin-bottom: 25px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #2d3436;
+        }
+
+        .item-quantity {
+            color: #636e72;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #e17055;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+
+        .total-row {
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .checkout-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #5f3dc4, #9c88ff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            background: #ddd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #636e72;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .history-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.3);
+        }
+
+        .history-btn:hover {
+            background: linear-gradient(135deg, #00a085, #00b7c4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #2d3436;
+            margin: 0;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            color: #000;
+            background: #f1f2f6;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #6c5ce7;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #2d3436;
+            font-size: 16px;
+        }
+
+        .order-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-active {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .history-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #636e72;
+            font-size: 14px;
+        }
+
+        .history-items {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .history-items h4 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        .history-total {
+            text-align: right;
+            font-weight: bold;
+            color: #e17055;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .no-history {
+            text-align: center;
+            color: #636e72;
+            font-style: italic;
+            padding: 40px;
+        }
+
+        .clear-history-btn {
+            background: #e17055;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .clear-history-btn:hover {
+            background: #d63031;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="project.html" class="back-to-site" onclick="goBackToSite()">❌</a>
+    <div class="container">
+        <div class="main-content">
+            <div class="featured-item">
+                <h2>Paket Camping Keluarga</h2>
+                <div class="price">Rp 200.000</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn" onclick="changeQuantity('paket-keluarga', -1)">−</button>
+                    <span class="quantity-display" id="qty-paket-keluarga">0</span>
+                    <button class="quantity-btn" onclick="changeQuantity('paket-keluarga', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="items-grid">
+                <div class="item-card">
+                    <h3>Tenda Hiking 4p</h3>
+                    <div class="price">Rp 30.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('tenda-4p', -1)">−</button>
+                        <span class="quantity-display" id="qty-tenda-4p">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('tenda-4p', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Tenda 2p</h3>
+                    <div class="price">Rp 25.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('tenda-2p', -1)">−</button>
+                        <span class="quantity-display" id="qty-tenda-2p">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('tenda-2p', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Fly Sheet</h3>
+                    <div class="price">Rp 10.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('fly-sheet', -1)">−</button>
+                        <span class="quantity-display" id="qty-fly-sheet">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('fly-sheet', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Kompor</h3>
+                    <div class="price">Rp 10.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('kompor', -1)">−</button>
+                        <span class="quantity-display" id="qty-kompor">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('kompor', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Cooking Set + Teko</h3>
+                    <div class="price">Rp 15.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('cooking-set', -1)">−</button>
+                        <span class="quantity-display" id="qty-cooking-set">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('cooking-set', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Cooking Set Kotak</h3>
+                    <div class="price">Rp 10.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('cooking-kotak', -1)">−</button>
+                        <span class="quantity-display" id="qty-cooking-kotak">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('cooking-kotak', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Matras Spons Camping Foam</h3>
+                    <div class="price">Rp 5.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('matras-spons', -1)">−</button>
+                        <span class="quantity-display" id="qty-matras-spons">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('matras-spons', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Matras Foil Camping Foam</h3>
+                    <div class="price">Rp 5.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('matras-foil', -1)">−</button>
+                        <span class="quantity-display" id="qty-matras-foil">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('matras-foil', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Headlamp LED Rechargeable</h3>
+                    <div class="price">Rp 150.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('headlamp', -1)">−</button>
+                        <span class="quantity-display" id="qty-headlamp">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('headlamp', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Botol Minum Stainless 1L</h3>
+                    <div class="price">Rp 125.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('botol-minum', -1)">−</button>
+                        <span class="quantity-display" id="qty-botol-minum">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('botol-minum', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Trekking Pole Carbon</h3>
+                    <div class="price">Rp 280.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('trekking-pole', -1)">−</button>
+                        <span class="quantity-display" id="qty-trekking-pole">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('trekking-pole', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <h3>Hammock Outdoor</h3>
+                    <div class="price">Rp 175.000</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity('hammock', -1)">−</button>
+                        <span class="quantity-display" id="qty-hammock">0</span>
+                        <button class="quantity-btn" onclick="changeQuantity('hammock', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <h3>📋 Ringkasan Pemesanan</h3>
+            
+            <div class="date-section">
+                <label for="pickup-date">📅 Tanggal Pengambilan</label>
+                <input type="date" id="pickup-date" value="2025-06-26" onchange="calculateDuration()">
+            </div>
+
+            <div class="date-section">
+                <label for="return-date">📅 Tanggal Pengembalian</label>
+                <input type="date" id="return-date" onchange="calculateDuration()">
+            </div>
+
+            <div class="rental-duration" id="duration-display">
+                Durasi Sewa: 1 hari<br>
+                <small>Pilih tanggal pengembalian</small>
+            </div>
+
+            <div class="payment-methods">
+                <h4>💳 Metode Pembayaran</h4>
+                <div class="payment-option">
+                    <input type="radio" id="dana" name="payment" value="dana" checked>
+                    <label for="dana">
+                        <div class="payment-icon" style="background: #1877f2;">💳</div>
+                        DANA
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="gopay" name="payment" value="gopay">
+                    <label for="gopay">
+                        <div class="payment-icon" style="background: #00d4aa;">💚</div>
+                        GoPay
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="ovo" name="payment" value="ovo">
+                    <label for="ovo">
+                        <div class="payment-icon" style="background: #4c3493;">💜</div>
+                        OVO
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="transfer" name="payment" value="transfer">
+                    <label for="transfer">
+                        <div class="payment-icon" style="background: #6c757d;">🏦</div>
+                        Transfer Bank
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="cod" name="payment" value="cod">
+                    <label for="cod">
+                        <div class="payment-icon" style="background: #fd7e14;">🧾</div>
+                        Bayar di Tempat (COD)
+                    </label>
+                </div>
+            </div>
+
+            <div class="order-summary" id="order-summary">
+                <div class="empty-cart">
+                    Keranjang masih kosong<br>
+                    Pilih produk adventure favoritmu!
+                </div>
+            </div>
+
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">Rp 0</span>
+            </div>
+            <div class="summary-row">
+                <span>Biaya Admin:</span>
+                <span id="admin-fee">Rp 0</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>TOTAL PEMBAYARAN:</span>
+                <span id="total">Rp 0</span>
+            </div>
+
+            <button class="history-btn" onclick="showHistory()">
+                📜 Riwayat Pesanan
+            </button>
+
+            <button class="checkout-btn" id="checkout-btn" disabled onclick="checkout()">
+                🛒 Checkout Sekarang
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Riwayat Pesanan -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📜 Riwayat Pesanan</h2>
+                <div>
+                    <button class="clear-history-btn" onclick="clearHistory()">🗑️ Hapus Semua</button>
+                    <span class="close" onclick="closeHistory()">&times;</span>
+                </div>
+            </div>
+            <div id="historyContent">
+                <div class="no-history">
+                    Belum ada riwayat pesanan<br>
+                    Lakukan pemesanan pertama Anda!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const items = {
+            'paket-keluarga': { name: 'Paket Camping Keluarga', price: 200000, quantity: 0 },
+            'tenda-4p': { name: 'Tenda Hiking 4p', price: 30000, quantity: 0 },
+            'tenda-2p': { name: 'Tenda 2p', price: 25000, quantity: 0 },
+            'fly-sheet': { name: 'Fly Sheet', price: 10000, quantity: 0 },
+            'kompor': { name: 'Kompor', price: 10000, quantity: 0 },
+            'cooking-set': { name: 'Cooking Set + Teko', price: 15000, quantity: 0 },
+            'cooking-kotak': { name: 'Cooking Set Kotak', price: 10000, quantity: 0 },
+            'matras-spons': { name: 'Matras Spons Camping Foam', price: 5000, quantity: 0 },
+            'matras-foil': { name: 'Matras Foil Camping Foam', price: 5000, quantity: 0 },
+            'headlamp': { name: 'Headlamp LED Rechargeable', price: 150000, quantity: 0 },
+            'botol-minum': { name: 'Botol Minum Stainless 1L', price: 125000, quantity: 0 },
+            'trekking-pole': { name: 'Trekking Pole Carbon', price: 280000, quantity: 0 },
+            'hammock': { name: 'Hammock Outdoor', price: 175000, quantity: 0 }
+        };
+
+        let rentalDays = 1;
+        let orderHistory = [];
+
+        // Load history from memory on page load
+        function loadHistory() {
+            // In a real app, this would load from a database
+            // For demo purposes, we'll create some sample data if empty
+            if (orderHistory.length === 0) {
+                // Add sample history data for demonstration
+                orderHistory = [
+                    {
+                        id: 'ORD-001',
+                        date: '2025-06-20',
+                        pickupDate: '2025-06-22',
+                        returnDate: '2025-06-24',
+                        duration: 2,
+                        status: 'completed',
+                        payment: 'DANA',
+                        items: [
+                            { name: 'Tenda Hiking 4p', quantity: 1, price: 30000, total: 60000 },
+                            { name: 'Kompor', quantity: 1, price: 10000, total: 20000 }
+                        ],
+                        subtotal: 80000,
+                        adminFee: 1500,
+                        total: 82500
+                    },
+                    {
+                        id: 'ORD-002',
+                        date: '2025-06-18',
+                        pickupDate: '2025-06-25',
+                        returnDate: '2025-06-27',
+                        duration: 2,
+                        status: 'active',
+                        payment: 'GOPAY',
+                        items: [
+                            { name: 'Paket Camping Keluarga', quantity: 1, price: 200000, total: 400000 },
+                            { name: 'Headlamp LED Rechargeable', quantity: 2, price: 150000, total: 600000 }
+                        ],
+                        subtotal: 1000000,
+                        adminFee: 1500,
+                        total: 1002500
+                    }
+                ];
+            }
+        }
+
+        function changeQuantity(itemId, change) {
+            const item = items[itemId];
+            const newQuantity = Math.max(0, item.quantity + change);
+            
+            item.quantity = newQuantity;
+            document.getElementById(`qty-${itemId}`).textContent = newQuantity;
+            
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const summaryContainer = document.getElementById('order-summary');
+            const subtotalElement = document.getElementById('subtotal');
+            const adminFeeElement = document.getElementById('admin-fee');
+            const totalElement = document.getElementById('total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            
+            let subtotal = 0;
+            let hasItems = false;
+            let summaryHTML = '';
+            
+            for (const [itemId, item] of Object.entries(items)) {
+                if (item.quantity > 0) {
+                    hasItems = true;
+                    const itemTotal = item.price * item.quantity * rentalDays;
+                    subtotal += itemTotal;
+                    
+                    summaryHTML += `
+                        <div class="order-item">
+                            <div>
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-quantity">${item.quantity} x ${rentalDays} hari</div>
+                            </div>
+                            <div class="item-price">Rp ${itemTotal.toLocaleString('id-ID')}</div>
+                        </div>
+                    `;
+                }
+            }
+            
+            if (!hasItems) {
+                summaryHTML = '<div class="empty-cart">Keranjang masih kosong<br>Pilih produk adventure favoritmu!</div>';
+            }
+            
+            summaryContainer.innerHTML = summaryHTML;
+            
+            const adminFee = hasItems ? 2500 : 0;
+            const total = subtotal + adminFee;
+            
+            subtotalElement.textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            adminFeeElement.textContent = `Rp ${adminFee.toLocaleString('id-ID')}`;
+            totalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+            
+            checkoutBtn.disabled = !hasItems;
+        }
+
+        function calculateDuration() {
+            const pickupDate = document.getElementById('pickup-date').value;
+            const returnDate = document.getElementById('return-date').value;
+            const durationDisplay = document.getElementById('duration-display');
+            
+            if (pickupDate && returnDate) {
+                const pickup = new Date(pickupDate);
+                const returnD = new Date(returnDate);
+                const diffTime = returnD - pickup;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 0) {
+                    rentalDays = diffDays;
+                    durationDisplay.innerHTML = `
+                        Durasi Sewa: ${diffDays} hari<br>
+                        <small>Biaya Admin: Rp 2.500</small>
+                    `;
+                } else {
+                    rentalDays = 1;
+                    durationDisplay.innerHTML = `
+                        Durasi Sewa: 1 hari<br>
+                        <small>Tanggal tidak valid</small>
+                    `;
+                }
+            } else {
+                rentalDays = 1;
+                durationDisplay.innerHTML = `
+                    Durasi Sewa: 1 hari<br>
+                    <small>Pilih tanggal pengembalian</small>
+                `;
+            }
+            
+            updateOrderSummary();
+        }
+
+        function checkout() {
+            const pickupDate = document.getElementById('pickup-date').value;
+            const returnDate = document.getElementById('return-date').value;
+            const selectedPayment = document.querySelector('input[name="payment"]:checked');
+            
+            if (!pickupDate || !returnDate) {
+                alert('Silakan pilih tanggal pengambilan dan pengembalian!');
+                return;
+            }
+            
+            if (!selectedPayment) {
+                alert('Silakan pilih metode pembayaran!');
+                return;
+            }
+            
+            const orderItems = [];
+            let subtotal = 0;
+            
+            for (const [itemId, item] of Object.entries(items)) {
+                if (item.quantity > 0) {
+                    const itemTotal = item.price * item.quantity * rentalDays;
+                    orderItems.push({
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price,
+                        total: itemTotal
+                    });
+                    subtotal += itemTotal;
+                }
+            }
+            
+            const total = subtotal + 2500;
+            
+            let orderSummary = `🏕️ ASAP BUMI ADVENTURE\n`;
+            orderSummary += `📅 Pengambilan: ${pickupDate}\n`;
+            orderSummary += `📅 Pengembalian: ${returnDate}\n`;
+            orderSummary += `⏰ Durasi: ${rentalDays} hari\n`;
+            orderSummary += `💳 Pembayaran: ${selectedPayment.value.toUpperCase()}\n\n`;
+            orderSummary += `📦 PESANAN:\n`;
+            
+            orderItems.forEach(item => {
+                orderSummary += `• ${item.name} (${item.quantity}x) = Rp ${item.total.toLocaleString('id-ID')}\n`;
+            });
+            
+            orderSummary += `\n💰 TOTAL: Rp ${total.toLocaleString('id-ID')}\n\n`;
+            orderSummary += `Terima kasih sudah memilih Asap Bumi Adventure! 🌲`;
+            
+            // Save to order history
+            const orderId = 'ORD-' + String(orderHistory.length + 1).padStart(3, '0');
+            const newOrder = {
+                id: orderId,
+                date: new Date().toISOString().split('T')[0],
+                pickupDate: pickupDate,
+                returnDate: returnDate,
+                duration: rentalDays,
+                status: 'active',
+                payment: selectedPayment.value.toUpperCase(),
+                items: orderItems,
+                subtotal: subtotal,
+                adminFee: 1500,
+                total: total
+            };
+            
+            orderHistory.unshift(newOrder); // Add to beginning of array
+            
+            fetch("simpan_order.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newOrder)
+            })
+            .then(res => res.json())
+            .then(res => {
+            if (res.success) {
+            alert("Pesanan berhasil disimpan ke database! ID: " + res.order_id);
+            } else {
+            alert("Gagal menyimpan ke database.");
+            }
+            })
+            .catch(err => alert("Error: " + err));
+
+            alert(orderSummary);
+            
+            // Reset form after successful order
+            resetForm();
+        }
+
+        function resetForm() {
+            // Reset all quantities
+            for (const itemId in items) {
+                items[itemId].quantity = 0;
+                document.getElementById(`qty-${itemId}`).textContent = '0';
+            }
+            
+            // Reset dates
+            document.getElementById('pickup-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('return-date').value = '';
+            
+            // Reset payment method
+            document.querySelector('input[name="payment"]').checked = true;
+            
+            // Reset duration
+            rentalDays = 1;
+            
+            // Update UI
+            calculateDuration();
+            updateOrderSummary();
+        }
+
+        function showHistory() {
+            const modal = document.getElementById('historyModal');
+            const content = document.getElementById('historyContent');
+            
+            if (orderHistory.length === 0) {
+                content.innerHTML = `
+                    <div class="no-history">
+                        Belum ada riwayat pesanan<br>
+                        Lakukan pemesanan pertama Anda!
+                    </div>
+                `;
+            } else {
+                let historyHTML = '';
+                
+                orderHistory.forEach(order => {
+                    const statusClass = `status-${order.status}`;
+                    const statusText = {
+                        'completed': 'Selesai',
+                        'active': 'Sedang Berlangsung',
+                        'cancelled': 'Dibatalkan'
+                    };
+                    
+                    historyHTML += `
+                        <div class="history-item">
+                            <div class="history-header">
+                                <div class="order-id">${order.id}</div>
+                                <div class="order-status ${statusClass}">${statusText[order.status]}</div>
+                            </div>
+                            
+                            <div class="history-details">
+                                <div class="detail-item">
+                                    <span>📅</span>
+                                    <span>Tanggal Pesan: ${order.date}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>📦</span>
+                                    <span>Pengambilan: ${order.pickupDate}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>🔄</span>
+                                    <span>Pengembalian: ${order.returnDate}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>💳</span>
+                                    <span>Pembayaran: ${order.payment}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-items">
+                                <h4>📦 Item Pesanan (${order.duration} hari):</h4>
+                                ${order.items.map(item => `
+                                    <div class="item-row">
+                                        <span>${item.name} (${item.quantity}x)</span>
+                                        <span>Rp ${item.total.toLocaleString('id-ID')}</span>
+                                    </div>
+                                `).join('')}
+                                
+                                <div class="item-row">
+                                    <span>Biaya Admin</span>
+                                    <span>Rp ${order.adminFee.toLocaleString('id-ID')}</span>
+                                </div>
+                                
+                                <div class="history-total">
+                                    Total: Rp ${order.total.toLocaleString('id-ID')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                content.innerHTML = historyHTML;
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeHistory() {
+            document.getElementById('historyModal').style.display = 'none';
+        }
+
+        function clearHistory() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua riwayat pesanan?')) {
+                orderHistory = [];
+                showHistory(); // Refresh the modal
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('historyModal');
+            if (event.target === modal) {
+                closeHistory();
+            }
+        }
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('pickup-date').setAttribute('min', today);
+        document.getElementById('return-date').setAttribute('min', today);
+        
+        // Initialize
+        loadHistory();
+        updateOrderSummary();
+    </script>
+</body>
+</html>
